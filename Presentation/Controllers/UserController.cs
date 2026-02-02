@@ -16,7 +16,6 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterUser(string Username, string Email, string Password)
         {
-            // Implementation for user registration
             var answ = await _mediator.Send(new Application.Services.UserServices.RegisterUser.Commands.RegisterUserCommand(Username, Email, Password));
             return Ok(answ);
         }
