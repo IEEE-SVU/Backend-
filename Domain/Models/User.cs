@@ -15,6 +15,7 @@ namespace Domain.Models
         public string PasswordHash { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public bool IsVerfied { get; set; } = false;
         public Role Role { get; set; }
         public Guid CommunityId { get; set; }
         #region Navigation Properties
