@@ -8,20 +8,15 @@ using System.Threading.Tasks;
 namespace Domain.Models
 {
 
-    public class Event
     public class Event : BaseModel
     {
         public string Name { get; set; }
-        public string? Description { get; set; }
-        public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty; 
         public string Location { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
         public DateTime Date { get; set; }
-        public string? Location { get; set; }
-        public string? ImageUrl { get; set; }
         public EventType Type { get; set; }
         public Guid CommunityId { get; set; }
         #region Navigation Properties

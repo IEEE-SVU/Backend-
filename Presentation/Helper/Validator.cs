@@ -11,7 +11,7 @@ namespace Presentation.Helper
         {
             _validator = validator;
         }
-        public  EndpointResponse<bool> Validate(T request)
+        public EndpointResponse<bool> Validate(T request)
         {
             var validationResult = _validator.Validate(request);
             if (!validationResult.IsValid)
@@ -21,4 +21,5 @@ namespace Presentation.Helper
             }
             return EndpointResponse<bool>.Success(true);
         }
+    }
 }

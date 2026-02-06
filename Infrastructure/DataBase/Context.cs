@@ -22,6 +22,5 @@ namespace Infrastructure.DataBase
             base.OnModelCreating(modelBuilder);
            // modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
-        public virtual DbSet<Event> Events { get; set; }
     }
 }
