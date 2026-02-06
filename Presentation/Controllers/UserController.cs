@@ -18,7 +18,14 @@ namespace Presentation.Controllers
         {
             // Implementation for user registration
             var answ = await _mediator.Send(new Application.Services.UserServices.RegisterUser.Commands.RegisterUserCommand(Username, Email, Password));
-            if()
+            if (answ)
+            {
+                return Ok(new { message = "User registered successfully!" });
+            }
+            else
+            {
+                return BadRequest(new { message = "Registration failed." });
+            }
         }
     }
 }
