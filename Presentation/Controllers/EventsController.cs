@@ -8,6 +8,8 @@ namespace Presentation.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     { //o88
+
+
         private readonly IMediator _mediator;
         public EventsController(IMediator mediator) => _mediator = mediator;
 
