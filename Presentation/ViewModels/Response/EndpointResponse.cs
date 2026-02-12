@@ -5,7 +5,7 @@ namespace Presentation.ViewModels.Response
 {
     public record EndpointResponse<T>(T Data,ErrorCode ErroCode,string Message = "Request was successful", bool IsSuccess = true )
     {
-        public static EndpointResponse<T> Success(T Data , string Message = "Successful Response")
+        public static EndpointResponse<T> Success(T Data , string Message = "Successful Request")
         {
             return new EndpointResponse<T>(Data,ErrorCode.NoError,Message, true);
         }

@@ -19,7 +19,7 @@ namespace Presentation.Controllers
             _mediator = mediator;
         }
         [HttpPost]
-        public async Task<EndpointResponse<bool>> RegisterUser([FromBody] RegisterUserViewModel request)
+        public async Task<EndpointResponse<bool>> RegisterUser([FromForm] RegisterUserViewModel request)
         {
             if (request == null)
             {
@@ -33,12 +33,19 @@ namespace Presentation.Controllers
 
                 return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.ValidationError, errors);
             }
-            var answ = await _mediator.Send(new Application.Services.UserServices.RegisterUser.Commands.RegisterUserCommand(request.Username, request.Email, request.Password));
+            var answ = await _mediator.Send(new Application.Services.UserServices.RegisterUser.Commands.RegisterUserCommand
+                (request.Username,request.FullName,request.Password,request.Email,request.PhoneNumber,request.NationalId,request.Faculty,request.Major,request.CV
+                ));
             if (answ == null)
             {
                 return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.BadRequest);
             }
             return EndpointResponse<bool>.Success(true);
+        }
+        [HttpPost("login")]
+        public async Task<EndpointResponse<string>> Login([FromBody] LoginUserViewModel request)
+        {
+            throw new Exception("Not Implemented Yet");
         }
 
     }

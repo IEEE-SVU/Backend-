@@ -8,11 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Services\CQRSCommon\" />
-    <Folder Include="Services\UserServices\LoginUser\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.3.9" />
   </ItemGroup>
 
   <ItemGroup>

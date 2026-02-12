@@ -1,15 +1,12 @@
 ﻿using Domain.IRepositories;
 using Domain.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services.UserServices.RegisterUser.Commands
 {
-    public record RegisterUserCommand(string Username, string Email, string Password) : IRequest<bool>;
+    public record RegisterUserCommand(string Username,string FullName, string Password
+        , string? Email, string? PhoneNumber , string NationalId,string? Faculty, string? Major , IFormFile CV) : IRequest<bool>;
 
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
     {
@@ -23,8 +20,14 @@ namespace Application.Services.UserServices.RegisterUser.Commands
             var user = new User
             {
                 Username = request.Username,
+                FullName = request.FullName,
+                PasswordHash = request.Password,
                 Email = request.Email,
-                PasswordHash = request.Password 
+                PhoneNumber = request.PhoneNumber,
+                NationalId = request.NationalId,
+                Faculty = request.Faculty,
+                Major = request.Major,
+               // CV = request.CV
             };
             await _userRepo.AddAsync(user);
             await _userRepo.SaveChangesAsync();
