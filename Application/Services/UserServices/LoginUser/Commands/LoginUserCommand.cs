@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Application.Common.PasswordHasher;
+using Application.Common.TokenGenerator;
 
 namespace Application.Services.UserServices.LoginUser.Commands
 {
@@ -14,9 +16,14 @@ namespace Application.Services.UserServices.LoginUser.Commands
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, string>
     {
         private IRepository<User> _repository;
-        public LoginUserCommandHandler(IRepository<User> repository)
+        private IPasswordHasher _passwordHasher;
+        private ITokenGenerator _tokenGenerator;
+        public LoginUserCommandHandler(IRepository<User> repository , IPasswordHasher passwordHasher ,
+            ITokenGenerator tokenGenerator)
         {
             _repository = repository;
+            _passwordHasher = passwordHasher;
+            _tokenGenerator = tokenGenerator;
         }
         public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
@@ -26,12 +33,13 @@ namespace Application.Services.UserServices.LoginUser.Commands
                 return string.Empty;
             }
 
-            if (user.PasswordHash != request.Password)
+           if(!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
                 return string.Empty;
             }
 
 
+           return await _tokenGenerator.GenerateTokenAsync(user.Id);
             throw new NotImplementedException();
         }
     }

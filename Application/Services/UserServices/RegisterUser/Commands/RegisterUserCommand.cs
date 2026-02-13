@@ -1,4 +1,5 @@
-﻿using Domain.IRepositories;
+﻿using Application.Common.PasswordHasher;
+using Domain.IRepositories;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,9 +12,12 @@ namespace Application.Services.UserServices.RegisterUser.Commands
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
     {
         private readonly IRepository<User> _userRepo;
-        public RegisterUserCommandHandler(IRepository<User> userRepo)
+        private IPasswordHasher _passwordHasher;
+        public RegisterUserCommandHandler(IRepository<User> userRepo,
+            IPasswordHasher passwordHasher)
         {
             _userRepo = userRepo;
+            _passwordHasher = passwordHasher;
         }
         public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -21,7 +25,7 @@ namespace Application.Services.UserServices.RegisterUser.Commands
             {
                 Username = request.Username,
                 FullName = request.FullName,
-                PasswordHash = request.Password,
+                PasswordHash = _passwordHasher.HashPassword(request.Password),
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 NationalId = request.NationalId,

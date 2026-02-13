@@ -8,6 +8,6 @@ namespace Application.Common.TokenGenerator
 {
     public interface ITokenGenerator
     {
-        public  Task<string> GenerateToken(Guid Id);
+        public  Task<string> GenerateTokenAsync(Guid Id);
     }
 }

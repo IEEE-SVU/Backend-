@@ -1,4 +1,6 @@
-﻿using Domain.IRepositories;
+﻿using Application.Common.PasswordHasher;
+using Application.Common.TokenGenerator;
+using Domain.IRepositories;
 using Infrastructure.DataBase;
 using Infrastructure.Repositories;
 using MediatR;
@@ -63,6 +65,8 @@ namespace Presentation
             #endregion
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped(typeof(IPasswordHasher),typeof(PasswordHasher));
+            builder.Services.AddScoped(typeof(ITokenGenerator),typeof(TokenGenerator));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

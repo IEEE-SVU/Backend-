@@ -45,7 +45,24 @@ namespace Presentation.Controllers
         [HttpPost("login")]
         public async Task<EndpointResponse<string>> Login([FromBody] LoginUserViewModel request)
         {
-            throw new Exception("Not Implemented Yet");
+            if (request == null)
+            {
+                return EndpointResponse<string>.Fail(Application.Enums.ErrorCode.BadRequest);
+            }
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(", ", ModelState.Values
+                                                .SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage));
+
+                return EndpointResponse<string>.Fail(Application.Enums.ErrorCode.ValidationError, errors);
+            }
+            var answ = await _mediator.Send(new Application.Services.UserServices.LoginUser.Commands.LoginUserCommand(request.Email,request.Password));
+            if (answ == null)
+            {
+                return EndpointResponse<string>.Fail(Application.Enums.ErrorCode.BadRequest);
+            }
+            return EndpointResponse<String>.Success(answ);
         }
 
     }
