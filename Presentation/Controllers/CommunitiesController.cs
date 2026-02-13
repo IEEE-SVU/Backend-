@@ -55,12 +55,12 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Update([FromBody] UpdateCommunityDto dto)
+        public async Task<EndpointResponse<bool>> Update([FromBody] UpdateCommunityDto dto)
         {
             var result = await _mediator.Send(new UpdateCommunityCommand(dto));
-            if (!result)
-                return NotFound(EndpointResponse<CommunityDto>.Fail(Application.Enums.ErrorCode.NotFound, "This Community Not Found"));
-            return NoContent();
+            if (result == true)
+                return EndpointResponse<bool>.Success(true);
+            return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.BadRequest);
         }
 
         [HttpDelete("{id}")]

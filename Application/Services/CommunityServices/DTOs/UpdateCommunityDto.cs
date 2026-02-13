@@ -5,7 +5,7 @@ namespace Application.Services.CommunityServices.DTOs
     public class UpdateCommunityDto
     {
         [Required]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [MaxLength(100)]

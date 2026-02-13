@@ -16,7 +16,7 @@ namespace Application.Services.CommunityServices.Commands.UpdateCommunityCommand
 
         public async Task<bool> Handle(UpdateCommunityCommand request, CancellationToken cancellationToken)
         {
-            var community = await _repository.GetByIDAsync(request.Dto.Id);
+            var community = await _repository.GetByIDAsync(Guid.Parse(request.Dto.Id));
             if (community is null)
                 return false;
 
