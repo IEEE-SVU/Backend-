@@ -29,5 +29,6 @@ namespace Domain.IRepositories
         Task HardDeleteAsync(Entity entity);
         Task HardDeleteRangeAsync(ICollection<Entity> entity);
         Task SaveChangesAsync();
+        Task<Entity> GetWithIncludeAsync(Guid id, params string[] include);
     }
 }

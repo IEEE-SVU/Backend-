@@ -20,7 +20,9 @@ namespace Application.Services.CommunityServices.Commands.CreateCommunityCommand
                 Name = request.Dto.Name,
                 Description = request.Dto.Description,
                 ImageUrl = request.Dto.ImageUrl,
-                IsJoiningOpen = request.Dto.IsJoiningOpen
+                IsJoiningOpen = request.Dto.IsJoiningOpen,
+                MainTasks = request.Dto.MainTasks.Select(x => new MainTask { Name = x }).ToList(),
+                Achievments = request.Dto.Achievments.Select(x => new Achievment { Name = x }).ToList()
             };
 
             await _repository.AddAsync(community);

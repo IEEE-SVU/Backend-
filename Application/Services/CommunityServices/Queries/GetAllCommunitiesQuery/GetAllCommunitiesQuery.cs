@@ -19,15 +19,15 @@ public class GetAllCommunitiesHandler(IRepository<Community> repository) : IRequ
 
     public async Task<List<CommunityDto>> Handle(GetAllCommunitiesQuery request, CancellationToken cancellationToken)
     {
-        var communities = await _repository.GetAll().ToListAsync(cancellationToken);
-
-        return communities.Select(c => new CommunityDto
-        {
-            Id = c.Id,
-            Name = c.Name,
-            Description = c.Description,
-            ImageUrl = c.ImageUrl,
-            CreatedAt = DateTime.UtcNow,
-        }).ToList();
+        return await _repository.GetAll()
+            .AsNoTracking()
+            .Select(x => new CommunityDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ImageUrl = x.ImageUrl,
+                IsJoiningOpen = x.IsJoiningOpen
+            }).ToListAsync(cancellationToken);
     }
 }

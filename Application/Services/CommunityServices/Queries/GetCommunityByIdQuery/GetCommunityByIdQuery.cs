@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace Application.Services.CommunityServices.Queries.GetCommunityByIdQuery
 {
-    public record GetCommunityByIdQuery(Guid Id) : IRequest<CommunityDto?>;
+    public record GetCommunityByIdQuery(Guid Id) : IRequest<CommunityByIdDto?>;
 
-    public class GetCommunityByIdHandler(IRepository<Community> repository) : IRequestHandler<GetCommunityByIdQuery, CommunityDto?>
+    public class GetCommunityByIdHandler(IRepository<Community> repository) : IRequestHandler<GetCommunityByIdQuery, CommunityByIdDto?>
     {
 
         private readonly IRepository<Community> _repository = repository;
 
-        public async Task<CommunityDto?> Handle(GetCommunityByIdQuery request, CancellationToken cancellationToken)
+        public async Task<CommunityByIdDto?> Handle(GetCommunityByIdQuery request, CancellationToken cancellationToken)
         {
             var community = await _repository.GetByIDAsync(request.Id);
 
             if (community is null) 
                 return null;
 
-            return new CommunityDto
+            return new CommunityByIdDto
             {
                 Id = community.Id,
                 Name = community.Name,

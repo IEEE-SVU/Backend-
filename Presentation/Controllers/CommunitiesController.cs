@@ -26,32 +26,28 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<EndpointResponse<List<CommunityDto>>> GetAll()
         {
             var result = await _mediator.Send(new GetAllCommunitiesQuery());
 
-            return Ok(EndpointResponse<List<CommunityDto>>.Success(result));
+            return EndpointResponse<List<CommunityDto>>.Success(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<EndpointResponse<CommunityByIdDto>> GetById(Guid id)
         {
             var result = await _mediator.Send(new GetCommunityByIdQuery(id));
-            if (result is null)
-                return NotFound();
 
-            return result is not null ? Ok(EndpointResponse<CommunityDto>.Success(result))
-                : NotFound(EndpointResponse<CommunityDto>.Fail(Application.Enums.ErrorCode.NotFound,"This Community Not Found"));
+            return result is not null ? EndpointResponse<CommunityByIdDto>.Success(result)
+                : EndpointResponse<CommunityByIdDto>.Fail(Application.Enums.ErrorCode.NotFound,"This Community Not Found");
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromBody] CreateCommunityDto dto)
+        public async Task<EndpointResponse<Guid>> Create([FromBody] CreateCommunityDto dto)
         {
             var communityId = await _mediator.Send(new CreateCommunityCommand(dto));
 
-            return CreatedAtAction(nameof(GetById),
-        new { id = communityId },
-        EndpointResponse<Guid>.Success(communityId));
+            return EndpointResponse<Guid>.Success(communityId);
         }
 
         [HttpPut("")]
@@ -64,22 +60,22 @@ namespace Presentation.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<EndpointResponse<bool>> Delete(Guid id)
         {
             var result = await _mediator.Send(new DeleteCommunityCommand(id));
             if (!result)
-                return NotFound(EndpointResponse<CommunityDto>.Fail(Application.Enums.ErrorCode.NotFound, "This Community Not Found"));
-            return NoContent();
+                return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.NotFound, "This Community Not Found");
+            return EndpointResponse<bool>.Success(true);
         }
-
+ 
         [HttpPut("{id}/openjoin")]
-        public async Task<IActionResult> OpenIsJoin(Guid id)
+        public async Task<EndpointResponse<bool>> OpenIsJoin(Guid id)
         {
             var result = await _mediator.Send(new OpenIsJoinCommunityCommand(id));
 
             if(!result)
-                return NotFound(EndpointResponse<CommunityDto>.Fail(Application.Enums.ErrorCode.NotFound, "This Community Not Found"));
-            return NoContent();
+                return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.NotFound, "This Community Not Found");
+            return EndpointResponse<bool>.Success(true);
 
         }
     }

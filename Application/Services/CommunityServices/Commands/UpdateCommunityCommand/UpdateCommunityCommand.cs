@@ -16,7 +16,7 @@ namespace Application.Services.CommunityServices.Commands.UpdateCommunityCommand
 
         public async Task<bool> Handle(UpdateCommunityCommand request, CancellationToken cancellationToken)
         {
-            var community = await _repository.GetByIDAsync(Guid.Parse(request.Dto.Id));
+            var community = await _repository.GetByIDAsync(request.Dto.Id);
             if (community is null)
                 return false;
 
@@ -25,16 +25,37 @@ namespace Application.Services.CommunityServices.Commands.UpdateCommunityCommand
             community.ImageUrl = request.Dto.ImageUrl;
             community.IsJoiningOpen = request.Dto.IsJoiningOpen;
 
-            var updated = await _repository.SaveIncludeAsync(
-                community,
-                nameof(Community.Name),
-                nameof(Community.Description),
-                nameof(Community.ImageUrl),
-                nameof(Community.IsJoiningOpen)
-            );
+            var existingAchievements = community.Achievments
+                .Select(a => a.Name)
+                .ToHashSet();
 
-            if (!updated)
-                return false;
+            foreach (var name in request.Dto.Achievments)
+            {
+                if (!existingAchievements.Contains(name))
+                {
+                    community.Achievments.Add(new Achievment
+                    {
+                        Name = name,
+                        CommunityId = community.Id
+                    });
+                }
+            }
+
+            var existingTasks = community.MainTasks
+                .Select(t => t.Name)
+                .ToHashSet();
+
+            foreach (var name in request.Dto.MainTasks)
+            {
+                if (!existingTasks.Contains(name))
+                {
+                    community.MainTasks.Add(new MainTask
+                    {
+                        Name = name,
+                        CommunityId = community.Id
+                    });
+                }
+            }
 
             await _repository.SaveChangesAsync();
 

@@ -1,23 +1,18 @@
-using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Application.Services.CommunityServices.DTOs
 {
-    public class UpdateCommunityDto
+    public class CommunityByIdDto
     {
-        [Required]
         public Guid Id { get; set; }
-
-        [Required]
-        [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
-
         public string? Description { get; set; }
-
         public string? ImageUrl { get; set; }
-
-        public ICollection<string> Achievments { get; set; } = [];
-        public ICollection<string> MainTasks { get; set; } = [];
-
+        public int MembersCount { get; set; }
+        public int EventsCount { get; set; }
+        public List<string> MainTasks { get; set; } = [];
+        public List<string> Achievements { get; set; } = [];
         public bool IsJoiningOpen { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

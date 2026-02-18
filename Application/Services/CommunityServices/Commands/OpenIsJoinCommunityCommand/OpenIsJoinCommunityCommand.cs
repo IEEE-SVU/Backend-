@@ -20,6 +20,8 @@ public class OpenIsJoinCommunityHandler(IRepository<Community> repository) : IRe
         if (community is null)
             return false;
 
+        community.IsJoiningOpen = !community.IsJoiningOpen;
+
         await _repository.SaveIncludeAsync(
              community,
              nameof(Community.IsJoiningOpen)
