@@ -11,7 +11,7 @@ namespace Infrastructure.DataBase.Configrations
             builder.ToTable("Users");
             builder.HasKey(x => x.Id);
 
-            builder.Property(u => u.Username)
+            builder.Property(u => u.FullName)
                    .IsRequired()
                    .HasMaxLength(50);
 
@@ -20,7 +20,6 @@ namespace Infrastructure.DataBase.Configrations
                    .HasMaxLength(100);
 
             builder.HasIndex(u => u.Email).IsUnique();
-            builder.HasIndex(u => u.Username).IsUnique();
 
             builder.HasOne(u => u.Community)
                    .WithMany(c => c.Users)
