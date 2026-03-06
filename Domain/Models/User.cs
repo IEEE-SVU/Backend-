@@ -11,20 +11,17 @@ namespace Domain.Models
 {
     public class User : BaseModel
     {
-        public string Username { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
         public string FullName { get; set; }
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string NationalId { get; set; } = string.Empty;  
-        public string Faculty { get; set; } = string.Empty; 
-        public string Major { get; set; } = string.Empty;   
-        //public  IFormFile CV { get; set; }
-        public bool IsVerfied { get; set; } = false;
+        public string Email { get; set; } = string.Empty;
+        public string Universtiry { get; set; } = string.Empty;   
+        public string FacultyOrDepartment { get; set; } = string.Empty; 
+        public string PasswordHash { get; set; } = string.Empty;
+        public bool IsVerfied { get; set; } = true;
         public Role Role { get; set; }
         public Guid? CommunityId { get; set; }
         #region Navigation Properties
         public virtual Community? Community { get; set; }
+        public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
         #endregion
     }
 }

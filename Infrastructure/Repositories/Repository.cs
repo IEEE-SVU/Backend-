@@ -66,7 +66,7 @@ namespace Infrastructure.Repositories
                     }
                 }
 
-                entity.CreatedAt = DateTime.UtcNow;
+                entity.UpdatedAt = DateTime.UtcNow;
 
                 return true;
             }

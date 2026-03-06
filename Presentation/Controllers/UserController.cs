@@ -34,8 +34,7 @@ namespace Presentation.Controllers
                 return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.ValidationError, errors);
             }
             var answ = await _mediator.Send(new Application.Services.UserServices.RegisterUser.Commands.RegisterUserCommand
-                (request.Username,request.FullName,request.Password,request.Email,request.PhoneNumber,request.NationalId,request.Faculty,request.Major,request.CV
-                ));
+                (request.FullName,request.Email, request.University, request.FacultyOrDepartment, request.Password));
             if (answ == null)
             {
                 return EndpointResponse<bool>.Fail(Application.Enums.ErrorCode.BadRequest);
