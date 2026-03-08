@@ -1,4 +1,5 @@
-﻿using Application.Common.PasswordHasher;
+﻿using Application.Common.Helper;
+using Application.Common.PasswordHasher;
 using Domain.IRepositories;
 using Domain.Models;
 using MediatR;
@@ -7,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 namespace Application.Services.UserServices.RegisterUser.Commands
 {
     public record RegisterUserCommand(string FullName, string? Email
-       ,string? University, string? FacultyOrDepartment, string Password) : IRequest<bool>;
+       ,string? University, string? FacultyOrDepartment, string Password) : IRequest<RequestResult<bool>>;
 
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, bool>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RequestResult<bool>>
     {
         private readonly IRepository<User> _userRepo;
         private IPasswordHasher _passwordHasher;
@@ -19,7 +20,7 @@ namespace Application.Services.UserServices.RegisterUser.Commands
             _userRepo = userRepo;
             _passwordHasher = passwordHasher;
         }
-        public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User
             {
@@ -31,7 +32,8 @@ namespace Application.Services.UserServices.RegisterUser.Commands
             };
             await _userRepo.AddAsync(user);
             await _userRepo.SaveChangesAsync();
-            return true;
+            
+            return RequestResult<bool>.Success(true, "User registered successfully");
         }
     }
 }
