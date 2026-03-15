@@ -19,10 +19,10 @@ namespace Presentation.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{communityId}")]
-        public async Task<EndpointResponse<MembershipDto>> GetMembershipPage(Guid communityId)
+        [HttpGet]
+        public async Task<EndpointResponse<MembershipDto>> GetMembershipPage()
         {
-            var result = await _mediator.Send(new GetMembershipQuery(communityId));
+            var result = await _mediator.Send(new GetMembershipQuery());
 
             return result.IsSuccess
                 ? EndpointResponse<MembershipDto>.Success(result.Data)

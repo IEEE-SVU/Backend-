@@ -10,7 +10,6 @@ namespace Application.Services.MembershipServices.DTOs
     {
         public DateTime Date { get; set; }
         public string MeetingLink { get; set; } = string.Empty;
-        public string Notes { get; set; } = string.Empty;
         public bool IsOnline { get; set; }
     }
 }
