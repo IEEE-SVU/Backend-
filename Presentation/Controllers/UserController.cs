@@ -1,5 +1,7 @@
 ﻿using Application.DTOs.UserDTOs;
+using Application.Services.UserServices.Certificates.DTOs;
 using Application.Services.UserServices.EditeProfile.Commands;
+using Application.Services.UserServices.GetCertificates.Queries;
 using Application.Services.UserServices.GetProfile.Commands;
 using Application.Services.UserServices.LoginUser.Commands;
 using Application.Services.UserServices.RegisterUser.Commands;
@@ -109,6 +111,15 @@ namespace Presentation.Controllers
             }
 
             return EndpointResponse<bool>.Success(result.Data);
+        }
+        [Authorize]
+        [HttpGet("certificates")]
+        public async Task<EndpointResponse<IEnumerable<CertificateDto>>> GetCertificates()
+        {
+            var result = await _mediator.Send(new GetUserCertificatesQuery());
+
+            return result.IsSuccess ? EndpointResponse<IEnumerable<CertificateDto>>.Success(result.Data)
+                : EndpointResponse<IEnumerable<CertificateDto>>.Fail(result.ErrorCode, result.Message);
         }
     }
 }

@@ -38,8 +38,10 @@ namespace Presentation.Controllers
         {
             var result = await _mediator.Send(new GetCommunityByIdQuery(id));
 
-            return result is not null ? EndpointResponse<CommunityByIdDto>.Success(result)
-                : EndpointResponse<CommunityByIdDto>.Fail(Application.Enums.ErrorCode.NotFound,"This Community Not Found");
+            if (!result.IsSuccess)
+                return EndpointResponse<CommunityByIdDto>.Fail(result.ErrorCode, result.Message);
+
+            return EndpointResponse<CommunityByIdDto>.Success(result.Data!);
         }
 
         [HttpPost("")]
