@@ -20,11 +20,15 @@ namespace Domain.Models
         public string PhoneNumber { get; set;} = string.Empty;
         public string CV { get; set; } = string.Empty;
         public bool IsVerfied { get; set; } = true;
+        public UserStatus Status { get; set; }
         public Role? Role { get; set; }
         public Guid? CommunityId { get; set; }
+
         #region Navigation Properties
         public virtual Community? Community { get; set; }
         public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+        public virtual ICollection<UserEvent> UserEvents { get; set; }
+
         #endregion
     }
 }

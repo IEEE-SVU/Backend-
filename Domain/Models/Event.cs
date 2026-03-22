@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Domain.Models
         public Guid CommunityId { get; set; }
         #region Navigation Properties
         public virtual Community Community { get; set; }
+        public virtual ICollection<UserEvent> UserEvents { get; set; }
         #endregion
     }
 }
