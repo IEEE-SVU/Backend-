@@ -16,6 +16,7 @@ namespace Infrastructure.DataBase
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Workshop> Workshops { get; set; }
         public virtual DbSet<Speaker> Speakers { get; set; }
+        public virtual DbSet<Sponsor> Sponsors { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
