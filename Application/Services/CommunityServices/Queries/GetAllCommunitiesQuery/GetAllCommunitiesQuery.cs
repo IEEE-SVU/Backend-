@@ -25,7 +25,6 @@ public class GetAllCommunitiesHandler(IRepository<Community> repository) : IRequ
             {
                 Id = x.Id,
                 Name = x.Name,
-                Description = x.Description,
                 ImageUrl = x.ImageUrl,
                 IsJoiningOpen = x.IsJoiningOpen
             }).ToListAsync(cancellationToken);
