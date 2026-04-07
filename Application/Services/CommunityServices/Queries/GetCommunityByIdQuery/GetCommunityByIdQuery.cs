@@ -21,7 +21,7 @@ namespace Application.Services.CommunityServices.Queries.GetCommunityByIdQuery
         {
             var community = await _repository.GetByIDAsync(request.Id);
 
-            if (community is null) 
+            if (community is null || community.IsDeleted) 
                 return RequestResult<CommunityByIdDto?>.Failure(Enums.ErrorCode.BadRequest,"this Community not found");
 
             var communityById = new CommunityByIdDto

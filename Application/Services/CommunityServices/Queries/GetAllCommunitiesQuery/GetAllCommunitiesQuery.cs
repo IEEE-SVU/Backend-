@@ -20,6 +20,7 @@ public class GetAllCommunitiesHandler(IRepository<Community> repository) : IRequ
     public async Task<List<CommunityDto>> Handle(GetAllCommunitiesQuery request, CancellationToken cancellationToken)
     {
         return await _repository.GetAll()
+            .Where(c => !c.IsDeleted)
             .AsNoTracking()
             .Select(x => new CommunityDto
             {
